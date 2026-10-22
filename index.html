@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guía Oficial de Clases 4 y 5 - Listas, Tablas y HTML Semántico</title>
+    <style>
+        :root {
+            --primary-color: #2b6cb0;
+            --secondary-color: #ebf8ff;
+            --text-color: #2d3748;
+            --bg-color: #ffffff;
+            --border-color: #cbd5e0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+            color: var(--text-color);
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #ffffff;
+        }
+
+        header.document-header {
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        h1.main-title {
+            color: var(--primary-color);
+            font-size: 1.6em;
+            margin: 0 0 5px 0;
+            text-transform: uppercase;
+            text-align: center;
+        }
+
+        .metadata {
+            color: #4a5568;
+            font-size: 0.95em;
+            margin: 2px 0;
+            text-align: center;
+        }
+
+        h2.class-title {
+            color: #ffffff;
+            background-color: var(--primary-color);
+            font-size: 1.3em;
+            margin-top: 30px;
+            margin-bottom: 12px;
+            padding: 8px 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            page-break-after: avoid;
+        }
+
+        h3 {
+            color: var(--primary-color);
+            font-size: 1.15em;
+            margin-top: 20px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid var(--secondary-color);
+            padding-bottom: 3px;
+            page-break-after: avoid;
+        }
+
+        h4 {
+            color: #2b6cb0;
+            font-size: 1em;
+            margin-top: 15px;
+            margin-bottom: 5px;
+            page-break-after: avoid;
+        }
+
+        p {
+            margin: 5px 0 10px 0;
+            font-size: 0.95em;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin: 5px 0 15px 0;
+            padding-left: 25px;
+            font-size: 0.95em;
+        }
+
+        li {
+            margin-bottom: 4px;
+        }
+
+        .alert-box {
+            background-color: var(--secondary-color);
+            border-left: 4px solid var(--primary-color);
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 0.95em;
+            page-break-inside: avoid;
+        }
+
+        /* CONTENEDOR DE IMÁGENES DE ESTRUCTURA */
+        .image-container {
+            text-align: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+            page-break-inside: avoid;
+        }
+
+        .image-container img {
+            max-width: 80%;
+            height: auto;
+            border-radius: 4px;
+            border: 1px solid #cbd5e0;
+        }
+
+        .image-caption {
+            font-size: 0.85em;
+            color: #4a5568;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
+        /* ====================================================================
+           SIMULACIÓN DE IMÁGENES DE CÓDIGO (ANTI COPIAR Y PEGAR)
+           ==================================================================== */
+        .mock-image-code {
+            background-color: #1e1e1e;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 10px 0 20px 0;
+            color: #d4d4d4;
+            font-family: Consolas, "Courier New", monospace;
+            font-size: 0.85em;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+            page-break-inside: avoid;
+            
+            /* BLOQUEO DE SELECCIÓN DE TEXTO */
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .mock-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            border-bottom: 1px solid #333;
+            padding-bottom: 8px;
+        }
+
+        .mock-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .dot.red { background-color: #ff5f56; }
+        .dot.yellow { background-color: #ffbd2e; }
+        .dot.green { background-color: #27c93f; }
+
+        .mock-title {
+            color: #858585;
+            font-size: 0.9em;
+            margin-left: 15px;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .code-line {
+            display: block;
+            margin-bottom: 3px;
+            white-space: pre-wrap;
+        }
+        
+        .tag { color: #569cd6; }
+        .attr { color: #9cdcfe; }
+        .val { color: #ce9178; }
+        .comment { color: #6a9955; font-style: italic; }
+        .text { color: #d4d4d4; }
+        .num { color: #2b91af; margin-right: 10px; user-select: none; }
+
+        /* ====================================================================
+           REGLAS DE IMPRESIÓN PDF PERFECTA
+           ==================================================================== */
+        @media print {
+            body {
+                background-color: #ffffff;
+                padding: 0;
+            }
+            .container {
+                max-width: 100%;
+                margin: 0;
+            }
+            .mock-image-code {
+                background-color: #1e1e1e !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                border: 1px solid #000;
+            }
+            h2, h3, h4 {
+                page-break-after: avoid;
+                break-after: avoid;
+            }
+            p, li, .mock-image-code, .alert-box, .image-container {
+                page-break-inside: avoid;
+                break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <header class="document-header">
+            <h1 class="main-title">GUÍA OFICIAL DE CLASES 4 Y 5: LISTAS, TABLAS Y HTML SEMÁNTICO</h1>
+            <p class="metadata"><strong>Duración Total:</strong> 10 Horas (2 Sesiones de 5 Horas) | <strong>Enfoque:</strong> Práctica intensiva en código</p>
+            <p class="metadata"><strong>Docente:</strong> Fredy Manuel Murillo Ramos</p>
+            <p class="metadata">Institución Educativa Empresarial San Antonio de Prado</p>
+        </header>
+
+        <!-- ====================================================================
+           CLASE 4
+           ==================================================================== -->
+        <h2 class="class-title">CLASE 4: LISTAS Y TABLAS DE DATOS EN HTML5</h2>
+
+        <div class="alert-box">
+            <strong>Objetivo de la Clase 4:</strong> Dominar la maquetación de listas estructuradas y la construcción de tablas de datos complejas mediante etiquetas semánticas de agrupación y combinación de celdas (colspan y rowspan), integrándolas dentro de la estructura general de una página web.
+        </div>
+
+        <h3>1. Listado de Etiquetas de la Clase 4 y Explicación Guiada</h3>
+
+        <h4>A. Explicación Detallada de las Etiquetas de Listas (&lt;ul&gt;, &lt;ol&gt;, &lt;li&gt;, &lt;dl&gt;, &lt;dt&gt;, &lt;dd&gt;)</h4>
+        <p>Las listas permiten agrupar elementos relacionados dentro del cuerpo principal de la página de forma ordenada o descriptiva. A continuación se detallan todas sus etiquetas:</p>
+        <ul>
+            <li><strong>&lt;ul&gt; (Unordered List):</strong> Define una lista desordenada donde el orden de los elementos no altera el significado (ej. opciones de menú dentro de <code>&lt;nav&gt;</code>). Visualmente utiliza viñetas o puntos.</li>
+            <li><strong>&lt;ol&gt; (Ordered List):</strong> Define una lista ordenada donde la secuencia importa (pasos de un proceso, posiciones, rankings). El navegador asigna números de forma automática.</li>
+            <li><strong>&lt;li&gt; (List Item):</strong> Representa un elemento individual dentro de una lista. Solo puede ir contenido de manera directa dentro de un <code>&lt;ul&gt;</code> o un <code>&lt;ol&gt;</code>.</li>
+            <li><strong>&lt;dl&gt; (Description List):</strong> Define una lista de descripción o glosario. Actúa como el contenedor principal para agrupar términos y sus respectivas explicaciones.</li>
+            <li><strong>&lt;dt&gt; (Definition Term):</strong> Especifica el término o concepto dentro de una lista de descripción (<code>&lt;dl&gt;</code>).</li>
+            <li><strong>&lt;dd&gt; (Definition Description):</strong> Proporciona la definición o explicación detallada correspondiente al término (<code>&lt;dt&gt;</code>) previamente declarado.</li>
+        </ul>
+
+        <p><strong>Ejemplo guiado: Creación de listas dentro de la estructura web</strong></p>
+        <div class="mock-image-code">
+            <div class="mock-header">
+                <div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <div class="mock-title">listas-ejemplo.html</div>
+            </div>
+            <span class="code-line"><span class="num">1</span>  <span class="comment">&lt;!-- Lista desordenada anidada dentro de una sección del main --&gt;</span></span>
+            <span class="code-line"><span class="num">2</span>  <span class="tag">&lt;ul&gt;</span></span>
+            <span class="code-line"><span class="num">3</span>      <span class="tag">&lt;li&gt;</span><span class="text">Desarrollo Web</span></span>
+            <span class="code-line"><span class="num">4</span>          <span class="tag">&lt;ul&gt;</span></span>
+            <span class="code-line"><span class="num">5</span>              <span class="tag">&lt;li&gt;</span><span class="text">HTML5 Semántico</span><span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">6</span>              <span class="tag">&lt;li&gt;</span><span class="text">CSS3 Estilos</span><span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">7</span>          <span class="tag">&lt;/ul&gt;</span></span>
+            <span class="code-line"><span class="num">8</span>      <span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">9</span>  <span class="tag">&lt;/ul&gt;</span></span>
+            <span class="code-line"><span class="num">10</span> </span>
+            <span class="code-line"><span class="num">11</span> <span class="comment">&lt;!-- Lista de descripción --&gt;</span></span>
+            <span class="code-line"><span class="num">12</span> <span class="tag">&lt;dl&gt;</span></span>
+            <span class="code-line"><span class="num">13</span>     <span class="tag">&lt;dt&gt;</span><span class="text">HTML5</span><span class="tag">&lt;/dt&gt;</span></span>
+            <span class="code-line"><span class="num">14</span>     <span class="tag">&lt;dd&gt;</span><span class="text">Lenguaje de marcado de hipertexto para la estructura web.</span><span class="tag">&lt;/dd&gt;</span></span>
+            <span class="code-line"><span class="num">15</span> <span class="tag">&lt;/dl&gt;</span></span>
+        </div>
+
+        <h4>B. Etiquetas de Tablas (&lt;table&gt;, &lt;thead&gt;, &lt;tbody&gt;, &lt;tfoot&gt;, &lt;tr&gt;, &lt;th&gt;, &lt;td&gt;, &lt;caption&gt;)</h4>
+        <p>Las tablas representan datos tabulares en filas y celdas. Su estructura moderna se divide en tres secciones semánticas clave:</p>
+        <ul>
+            <li><strong>&lt;table&gt;:</strong> Contenedor general de la tabla.</li>
+            <li><strong>&lt;caption&gt;:</strong> Título descriptivo o pie explicativo de la tabla.</li>
+            <li><strong>&lt;thead&gt;:</strong> Encabezado de la tabla (alberga los nombres de las columnas).</li>
+            <li><strong>&lt;tbody&gt;:</strong> Cuerpo principal donde residen los datos tabulares.</li>
+            <li><strong>&lt;tfoot&gt;:</strong> Pie de tabla (totales o resúmenes).</li>
+            <li><strong>&lt;tr&gt; (Table Row):</strong> Fila horizontal dentro de la tabla.</li>
+            <li><strong>&lt;th&gt; (Table Header):</strong> Celda de encabezado (texto centrado y en negrita).</li>
+            <li><strong>&lt;td&gt; (Table Data):</strong> Celda estándar con los datos de la fila.</li>
+            <li><strong>Atributos de expansión:</strong> <code>colspan="N"</code> expande una celda horizontalmente a través de N columnas; <code>rowspan="N"</code> expande una celda verticalmente a través de N filas.</li>
+        </ul>
+
+        <div class="alert-box">
+            <strong>REGLA DE ORO DEL DOCENTE: ¿Cuándo utilizar y cuándo NO utilizar tablas?</strong><br>
+            • <strong>SÍ utilizar:</strong> Para representar datos tabulares puros (horarios, reportes de inventario, listas de precios, horarios escolares, calendarios, tablas comparativas).<br>
+            • <strong>NO utilizar:</strong> Para diseñar la estructura o maquetación visual de una página web. Para estructurar la interfaz usamos la maquetación semántica oficial (header, nav, article, section, aside, footer).
+        </div>
+
+        <p><strong>Ejemplo guiado: Tabla con estructura semántica y combinación de celdas</strong></p>
+        <div class="mock-image-code">
+            <div class="mock-header">
+                <div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <div class="mock-title">tabla-ejemplo.html</div>
+            </div>
+            <span class="code-line"><span class="num">1</span>  <span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">2</span>      <span class="tag">&lt;caption&gt;</span><span class="text">Horario de Módulos Técnicos</span><span class="tag">&lt;/caption&gt;</span></span>
+            <span class="code-line"><span class="num">3</span>      <span class="tag">&lt;thead&gt;</span></span>
+            <span class="code-line"><span class="num">4</span>          <span class="tag">&lt;tr&gt;</span></span>
+            <span class="code-line"><span class="num">5</span>              <span class="tag">&lt;th&gt;</span><span class="text">Día</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">6</span>              <span class="tag">&lt;th&gt;</span><span class="text">Jornada Mañana</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">7</span>              <span class="tag">&lt;th&gt;</span><span class="text">Jornada Tarde</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">8</span>          <span class="tag">&lt;/tr&gt;</span></span>
+            <span class="code-line"><span class="num">9</span>      <span class="tag">&lt;/thead&gt;</span></span>
+            <span class="code-line"><span class="num">10</span>     <span class="tag">&lt;tbody&gt;</span></span>
+            <span class="code-line"><span class="num">11</span>         <span class="tag">&lt;tr&gt;</span></span>
+            <span class="code-line"><span class="num">12</span>             <span class="tag">&lt;td&gt;</span><span class="text">Miércoles</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">13</span>             <span class="comment">&lt;!-- Celdas combinadas horizontalmente mediante colspan --&gt;</span></span>
+            <span class="code-line"><span class="num">14</span>             <span class="tag">&lt;td</span> <span class="attr">colspan</span>=<span class="val">"2"</span><span class="tag">&gt;</span><span class="text">Laboratorio de HTML5 y CSS3 (5 Horas Continuas)</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">15</span>         <span class="tag">&lt;/tr&gt;</span></span>
+            <span class="code-line"><span class="num">16</span>     <span class="tag">&lt;/tbody&gt;</span></span>
+            <span class="code-line"><span class="num">17</span> <span class="tag">&lt;/table&gt;</span></span>
+        </div>
+
+        <h3>2. ACTIVIDAD PRÁCTICA DE LA CLASE 4</h3>
+        <p>Desarrollo paso a paso de la actividad <strong>"Reporte Académico y Horario de Módulos"</strong> en la página <code>modulos.html</code>.</p>
+
+        <h4>FASE 1: Creación del archivo e inserción de Listas en la Estructura Web</h4>
+        <ol>
+            <li>Ingresa a tu carpeta de proyecto <code>portal-estudiante</code> en Visual Studio Code.</li>
+            <li>Crea un archivo nuevo llamado exactamente <code>modulos.html</code>.</li>
+            <li>Codifica el esqueleto HTML5 respetando la arquitectura completa de la página.</li>
+            <li>Dentro del contenedor principal, crea una sección con una <strong>lista ordenada</strong> de tus prioridades académicas, y dentro de cada paso, una <strong>lista desordenada anidada</strong> detallando los temas.</li>
+        </ol>
+
+        <div class="mock-image-code">
+            <div class="mock-header"><div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><div class="mock-title">modulos.html - Fase 1</div></div>
+            <span class="code-line"><span class="num">1</span>  <span class="tag">&lt;article&gt;</span></span>
+            <span class="code-line"><span class="num">2</span>      <span class="tag">&lt;section&gt;</span></span>
+            <span class="code-line"><span class="num">3</span>          <span class="tag">&lt;h2&gt;</span><span class="text">Ruta de Formación Técnica</span><span class="tag">&lt;/h2&gt;</span></span>
+            <span class="code-line"><span class="num">4</span>          <span class="tag">&lt;ol&gt;</span></span>
+            <span class="code-line"><span class="num">5</span>              <span class="tag">&lt;li&gt;</span><span class="text">Módulo Inicial: Maquetación Básica</span></span>
+            <span class="code-line"><span class="num">6</span>                  <span class="tag">&lt;ul&gt;</span></span>
+            <span class="code-line"><span class="num">7</span>                      <span class="tag">&lt;li&gt;</span><span class="text">Estructura HTML5</span><span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">8</span>                      <span class="tag">&lt;li&gt;</span><span class="text">Listas y Tablas Semánticas</span><span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">9</span>                  <span class="tag">&lt;/ul&gt;</span></span>
+            <span class="code-line"><span class="num">10</span>             <span class="tag">&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">11</span>         <span class="tag">&lt;/ol&gt;</span></span>
+            <span class="code-line"><span class="num">12</span>     <span class="tag">&lt;/section&gt;</span></span>
+            <span class="code-line"><span class="num">13</span> <span class="tag">&lt;/article&gt;</span></span>
+        </div>
+
+        <h4>FASE 2: Construcción de Tabla Avanzada con Colspan y Rowspan</h4>
+        <p>Debajo de la lista anterior, añade una sección con una tabla completa que muestre las calificaciones y el horario académico. Aplica el código en <code>modulos.html</code>:</p>
+
+        <div class="mock-image-code">
+            <div class="mock-header"><div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><div class="mock-title">modulos.html - Fase 2</div></div>
+            <span class="code-line"><span class="num">14</span>     <span class="tag">&lt;section&gt;</span></span>
+            <span class="code-line"><span class="num">15</span>         <span class="tag">&lt;h2&gt;</span><span class="text">Resumen Académico de Evaluaciones</span><span class="tag">&lt;/h2&gt;</span></span>
+            <span class="code-line"><span class="num">16</span>         <span class="tag">&lt;table</span> <span class="attr">border</span>=<span class="val">"1"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">17</span>             <span class="tag">&lt;caption&gt;</span><span class="text">Consolidado de Calificaciones Módulo HTML5</span><span class="tag">&lt;/caption&gt;</span></span>
+            <span class="code-line"><span class="num">18</span>             <span class="tag">&lt;thead&gt;</span></span>
+            <span class="code-line"><span class="num">19</span>                 <span class="tag">&lt;tr&gt;</span></span>
+            <span class="code-line"><span class="num">20</span>                     <span class="tag">&lt;th&gt;</span><span class="text">Estudiante</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">21</span>                     <span class="tag">&lt;th&gt;</span><span class="text">Taller 1</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">22</span>                     <span class="tag">&lt;th&gt;</span><span class="text">Taller 2</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">23</span>                     <span class="tag">&lt;th&gt;</span><span class="text">Estado Final</span><span class="tag">&lt;/th&gt;</span></span>
+            <span class="code-line"><span class="num">24</span>                 <span class="tag">&lt;/tr&gt;</span></span>
+            <span class="code-line"><span class="num">25</span>             <span class="tag">&lt;/thead&gt;</span></span>
+            <span class="code-line"><span class="num">26</span>             <span class="tag">&lt;tbody&gt;</span></span>
+            <span class="code-line"><span class="num">27</span>                 <span class="tag">&lt;tr&gt;</span></span>
+            <span class="code-line"><span class="num">28</span>                     <span class="tag">&lt;td&gt;</span><span class="text">[Tu Nombre Aquí]</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">29</span>                     <span class="tag">&lt;td&gt;</span><span class="text">5.0</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">30</span>                     <span class="tag">&lt;td&gt;</span><span class="text">5.0</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">31</span>                     <span class="comment">&lt;!-- Uso de rowspan para abarcar dos filas consecutivas --&gt;</span></span>
+            <span class="code-line"><span class="num">32</span>                     <span class="tag">&lt;td</span> <span class="attr">rowspan</span>=<span class="val">"2"</span><span class="tag">&gt;</span><span class="text">Aprobado</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">33</span>                 <span class="tag">&lt;/tr&gt;</span></span>
+            <span class="code-line"><span class="num">34</span>             <span class="tag">&lt;/tbody&gt;</span></span>
+            <span class="code-line"><span class="num">35</span>             <span class="tag">&lt;tfoot&gt;</span></span>
+            <span class="code-line"><span class="num">36</span>                 <span class="tag">&lt;tr&gt;</span></span>
+            <span class="code-line"><span class="num">37</span>                     <span class="comment">&lt;!-- Uso de colspan para ocupar tres columnas con el promedio --&gt;</span></span>
+            <span class="code-line"><span class="num">38</span>                     <span class="tag">&lt;td</span> <span class="attr">colspan</span>=<span class="val">"3"</span><span class="tag">&gt;</span><span class="text">Promedio General del Grupo:</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">39</span>                     <span class="tag">&lt;td&gt;</span><span class="text">5.0</span><span class="tag">&lt;/td&gt;</span></span>
+            <span class="code-line"><span class="num">40</span>                 <span class="tag">&lt;/tr&gt;</span></span>
+            <span class="code-line"><span class="num">41</span>             <span class="tag">&lt;/tfoot&gt;</span></span>
+            <span class="code-line"><span class="num">42</span>         <span class="tag">&lt;/table&gt;</span></span>
+            <span class="code-line"><span class="num">43</span>     <span class="tag">&lt;/section&gt;</span></span>
+        </div>
+
+
+        <!-- ====================================================================
+           CLASE 5
+           ==================================================================== -->
+        <h2 class="class-title">CLASE 5: ESTRUCTURA DE UNA PÁGINA EN HTML5 Y ACCESIBILIDAD WEB</h2>
+
+        <div class="alert-box">
+            <strong>Objetivo de la Clase 5:</strong> Estructurar un sitio web institucional completo utilizando el 100% de los elementos semánticos de HTML5 en base al modelo oficial de arquitectura, comprendiendo las diferencias críticas con el elemento contenedor neutro &lt;div&gt;, la accesibilidad básica y el orden jerárquico.
+        </div>
+
+        <h3>1. Esquema Visual Oficial de la Estructura de una Página Web</h3>
+        <p>A continuación se presentan los diagramas de referencia que definen cómo se distribuyen y anidan exactamente los contenedores semánticos dentro del cuerpo (<code>&lt;body&gt;</code>) de un documento web profesional:</p>
+
+        <div class="image-container">
+            <img src="estructura-de-una-pagina-en-HTML5.jpg" alt="Estructura de una página en HTML5">
+            <div class="image-caption">Figura 1: Distribución oficial de etiquetas semánticas (header, nav, article conteniendo secciones, aside lateral y footer).</div>
+        </div>
+
+        <div class="image-container">
+            <img src="partes-de-una-pagina-web-estructura.png" alt="Partes de una página web - Estructura">
+            <div class="image-caption">Figura 2: Delimitación por zonas funcionales: Cabecera (header), Cuerpo (body) y Pie de página (footer).</div>
+        </div>
+
+        <h3>2. Listado de Etiquetas de la Clase 5 y Explicación Guiada</h3>
+
+        <h4>A. Etiquetas Semánticas Estructurales y de Sección</h4>
+        <ul>
+            <li><strong>&lt;header&gt;:</strong> Bloque superior de la página web. Alberga el logotipo principal y los títulos de bienvenida.</li>
+            <li><strong>&lt;nav&gt;:</strong> Sección inmediatamente inferior a la cabecera que agrupa el menú de enlaces principales.</li>
+            <li><strong>&lt;article&gt;:</strong> Contenedor del bloque central de la página. Encapsula el contenido temático de la noticia o publicación.</li>
+            <li><strong>&lt;section&gt;:</strong> Sub-divisiones temáticas dentro del <code>&lt;article&gt;</code>. Cada sección representa un capítulo o apartado específico.</li>
+            <li><strong>&lt;aside&gt;:</strong> Panel lateral independiente ubicado al lado del contenedor central. Contiene información secundaria, enlaces recomendados o widgets.</li>
+            <li><strong>&lt;footer&gt;:</strong> Pie de página de extremo a extremo. Incluye derechos de autor, aviso legal, accesibilidad y datos de contacto en <code>&lt;address&gt;</code>.</li>
+            <li><strong>&lt;figure&gt; y &lt;figcaption&gt;:</strong> Envolvente semántico para imágenes o diagramas con leyenda explícita.</li>
+            <li><strong>&lt;time&gt;:</strong> Representa fechas legibles para máquinas mediante el atributo <code>datetime</code>.</li>
+        </ul>
+
+        <div class="alert-box">
+            <strong>Diferencia Fundamental: &lt;div&gt; vs. Elementos Semánticos</strong><br>
+            • <strong>&lt;div&gt;:</strong> Es un contenedor neutro sin significado semántico. Se debe usar únicamente cuando se requiere aplicar estilos visuales con CSS o manipular la interfaz con JavaScript sin aportar un significado estructural.<br>
+            • <strong>Elementos Semánticos (&lt;article&gt;, &lt;section&gt;, etc.):</strong> Le explican al navegador, a los lectores de pantalla para personas con discapacidad visual y a motores de búsqueda como Google qué función cumple cada parte de la página web.
+        </div>
+
+        <p><strong>Ejemplo guiado: Maquetación semántica con figure, time y address</strong></p>
+        <div class="mock-image-code">
+            <div class="mock-header">
+                <div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div>
+                <div class="mock-title">semantica-ejemplo.html</div>
+            </div>
+            <span class="code-line"><span class="num">1</span>  <span class="tag">&lt;article&gt;</span></span>
+            <span class="code-line"><span class="num">2</span>      <span class="tag">&lt;header&gt;</span></span>
+            <span class="code-line"><span class="num">3</span>          <span class="tag">&lt;h2&gt;</span><span class="text">Lanzamiento del Proyecto Institucional</span><span class="tag">&lt;/h2&gt;</span></span>
+            <span class="code-line"><span class="num">4</span>          <span class="tag">&lt;p&gt;</span><span class="text">Publicado el </span><span class="tag">&lt;time</span> <span class="attr">datetime</span>=<span class="val">"2026-10-14"</span><span class="tag">&gt;</span><span class="text">14 de octubre de 2026</span><span class="tag">&lt;/time&gt;</span><span class="tag">&lt;/p&gt;</span></span>
+            <span class="code-line"><span class="num">5</span>      <span class="tag">&lt;/header&gt;</span></span>
+            <span class="code-line"><span class="num">6</span>      </span>
+            <span class="code-line"><span class="num">7</span>      <span class="comment">&lt;!-- Imagen envuelta semánticamente con su pie de foto --&gt;</span></span>
+            <span class="code-line"><span class="num">8</span>      <span class="tag">&lt;figure&gt;</span></span>
+            <span class="code-line"><span class="num">9</span>          <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"./img/evento.jpg"</span> <span class="attr">alt</span>=<span class="val">"Estudiantes en la presentación técnica"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">10</span>         <span class="tag">&lt;figcaption&gt;</span><span class="text">Figura 1: Muestra de proyectos de desarrollo web.</span><span class="tag">&lt;/figcaption&gt;</span></span>
+            <span class="code-line"><span class="num">11</span>     <span class="tag">&lt;/figure&gt;</span></span>
+            <span class="code-line"><span class="num">12</span>     </span>
+            <span class="code-line"><span class="num">13</span>     <span class="tag">&lt;footer&gt;</span></span>
+            <span class="code-line"><span class="num">14</span>         <span class="tag">&lt;address&gt;</span></span>
+            <span class="code-line"><span class="num">15</span>             <span class="text">Contacto: </span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:docente@institucion.edu.co"</span><span class="tag">&gt;</span><span class="text">docente@institucion.edu.co</span><span class="tag">&lt;/a&gt;</span></span>
+            <span class="code-line"><span class="num">16</span>         <span class="tag">&lt;/address&gt;</span></span>
+            <span class="code-line"><span class="num">17</span>     <span class="tag">&lt;/footer&gt;</span></span>
+            <span class="code-line"><span class="num">18</span> <span class="tag">&lt;/article&gt;</span></span>
+        </div>
+
+        <h3>3. ACTIVIDAD PRÁCTICA EXTENSA DE LA CLASE 5 (Duración: 4 Horas)</h3>
+        <p>Desarrollo guiado paso a paso del proyecto <strong>"Sitio Web Institucional Semántico"</strong> basado estrictamente en el modelo visual de la Figura 1.</p>
+
+        <div class="alert-box">
+            <strong>Especificación de Contenido que Debe Desarrollar el Estudiante:</strong><br>
+            Construirás la estructura de una página institucional sin usar ningún contenedor genérico <code>&lt;div&gt;</code> para la maquetación. Se evaluará el anidamiento correcto donde el contenedor central es un <code>&lt;article&gt;</code> que alberga en su interior múltiples <code>&lt;section&gt;</code>, alineado lateralmente con un <code>&lt;aside&gt;</code>.
+        </div>
+
+        <h4>FASE 1: Maquetación del Portal Semántico Principal</h4>
+        <ol>
+            <li>En tu carpeta <code>portal-estudiante</code>, abre el archivo <code>index.html</code>.</li>
+            <li>Reestructura todo el cuerpo del documento asegurando que cumpla exactamente con la arquitectura visual estudiada: un <code>&lt;header&gt;</code> superior, seguido del <code>&lt;nav&gt;</code>, un contenedor central <code>&lt;article&gt;</code> que agrupa internamente las <code>&lt;section&gt;</code> de la publicación, un bloque lateral <code>&lt;aside&gt;</code> y un pie de página <code>&lt;footer&gt;</code>.</li>
+            <li>Aplica el siguiente esquema de código en <code>index.html</code>:</li>
+        </ol>
+
+        <div class="mock-image-code">
+            <div class="mock-header"><div class="mock-dots"><div class="dot red"></div><div class="dot yellow"></div><div class="dot green"></div></div><div class="mock-title">index.html - Reestructuración Semántica Según Modelo Visual</div></div>
+            <span class="code-line"><span class="num">1</span>  <span class="tag">&lt;!DOCTYPE html&gt;</span></span>
+            <span class="code-line"><span class="num">2</span>  <span class="tag">&lt;html</span> <span class="attr">lang</span>=<span class="val">"es"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">3</span>  <span class="tag">&lt;head&gt;</span></span>
+            <span class="code-line"><span class="num">4</span>      <span class="tag">&lt;meta</span> <span class="attr">charset</span>=<span class="val">"UTF-8"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">5</span>      <span class="tag">&lt;title&gt;</span><span class="text">Institución Educativa - Portal Semántico</span><span class="tag">&lt;/title&gt;</span></span>
+            <span class="code-line"><span class="num">6</span>  <span class="tag">&lt;/head&gt;</span></span>
+            <span class="code-line"><span class="num">7</span>  <span class="tag">&lt;body&gt;</span></span>
+            <span class="code-line"><span class="num">8</span>      <span class="comment">&lt;!-- Cabecera superior según diagrama --&gt;</span></span>
+            <span class="code-line"><span class="num">9</span>      <span class="tag">&lt;header&gt;</span></span>
+            <span class="code-line"><span class="num">10</span>         <span class="tag">&lt;h1&gt;</span><span class="text">Institución Educativa Empresarial San Antonio de Prado</span><span class="tag">&lt;/h1&gt;</span></span>
+            <span class="code-line"><span class="num">11</span>     <span class="tag">&lt;/header&gt;</span></span>
+            <span class="code-line"><span class="num">12</span> </span>
+            <span class="code-line"><span class="num">13</span>     <span class="comment">&lt;!-- Menú de navegación inmediatamente inferior --&gt;</span></span>
+            <span class="code-line"><span class="num">14</span>     <span class="tag">&lt;nav&gt;</span></span>
+            <span class="code-line"><span class="num">15</span>         <span class="tag">&lt;ul&gt;</span></span>
+            <span class="code-line"><span class="num">16</span>             <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"index.html"</span><span class="tag">&gt;</span><span class="text">Inicio</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">17</span>             <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"modulos.html"</span><span class="tag">&gt;</span><span class="text">Módulos</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">18</span>             <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"galeria.html"</span><span class="tag">&gt;</span><span class="text">Galería</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">19</span>         <span class="tag">&lt;/ul&gt;</span></span>
+            <span class="code-line"><span class="num">20</span>     <span class="tag">&lt;/nav&gt;</span></span>
+            <span class="code-line"><span class="num">21</span> </span>
+            <span class="code-line"><span class="num">22</span>     <span class="comment">&lt;!-- Bloque central de contenido representado por &lt;article&gt; --&gt;</span></span>
+            <span class="code-line"><span class="num">23</span>     <span class="tag">&lt;article&gt;</span></span>
+            <span class="code-line"><span class="num">24</span>         <span class="comment">&lt;!-- Sub-sección 1 dentro del article --&gt;</span></span>
+            <span class="code-line"><span class="num">25</span>         <span class="tag">&lt;section&gt;</span></span>
+            <span class="code-line"><span class="num">26</span>             <span class="tag">&lt;h2&gt;</span><span class="text">Noticias de la Media Técnica</span><span class="tag">&lt;/h2&gt;</span></span>
+            <span class="code-line"><span class="num">27</span>             <span class="tag">&lt;p&gt;</span><span class="text">Publicado el </span><span class="tag">&lt;time</span> <span class="attr">datetime</span>=<span class="val">"2026-09-16"</span><span class="tag">&gt;</span><span class="text">16 de septiembre de 2026</span><span class="tag">&lt;/time&gt;</span><span class="tag">&lt;/p&gt;</span></span>
+            <span class="code-line"><span class="num">28</span>             <span class="tag">&lt;figure&gt;</span></span>
+            <span class="code-line"><span class="num">29</span>                 <span class="tag">&lt;img</span> <span class="attr">src</span>=<span class="val">"./archivos/portada.jpg"</span> <span class="attr">alt</span>=<span class="val">"Estudiantes en el laboratorio de desarrollo"</span><span class="tag">&gt;</span></span>
+            <span class="code-line"><span class="num">30</span>                 <span class="tag">&lt;figcaption&gt;</span><span class="text">Figura 1: Práctica intensiva de maquetación en VS Code.</span><span class="tag">&lt;/figcaption&gt;</span></span>
+            <span class="code-line"><span class="num">31</span>             <span class="tag">&lt;/figure&gt;</span></span>
+            <span class="code-line"><span class="num">32</span>         <span class="tag">&lt;/section&gt;</span></span>
+            <span class="code-line"><span class="num">33</span> </span>
+            <span class="code-line"><span class="num">34</span>         <span class="comment">&lt;!-- Sub-sección 2 dentro del article --&gt;</span></span>
+            <span class="code-line"><span class="num">35</span>         <span class="tag">&lt;section&gt;</span></span>
+            <span class="code-line"><span class="num">36</span>             <span class="tag">&lt;h3&gt;</span><span class="text">Objetivos del Módulo</span><span class="tag">&lt;/h3&gt;</span></span>
+            <span class="code-line"><span class="num">37</span>             <span class="tag">&lt;p&gt;</span><span class="text">Los estudiantes han avanzado en el dominio de etiquetas de contenido y estructura semántica sin contenedores neutros.</span><span class="tag">&lt;/p&gt;</span></span>
+            <span class="code-line"><span class="num">38</span>         <span class="tag">&lt;/section&gt;</span></span>
+            <span class="code-line"><span class="num">39</span>     <span class="tag">&lt;/article&gt;</span></span>
+            <span class="code-line"><span class="num">40</span> </span>
+            <span class="code-line"><span class="num">41</span>     <span class="comment">&lt;!-- Bloque lateral independiente según diagrama --&gt;</span></span>
+            <span class="code-line"><span class="num">42</span>     <span class="tag">&lt;aside&gt;</span></span>
+            <span class="code-line"><span class="num">43</span>         <span class="tag">&lt;h3&gt;</span><span class="text">Enlaces Recomendados</span><span class="tag">&lt;/h3&gt;</span></span>
+            <span class="code-line"><span class="num">44</span>         <span class="tag">&lt;ul&gt;</span></span>
+            <span class="code-line"><span class="num">45</span>             <span class="tag">&lt;li&gt;&lt;a</span> <span class="attr">href</span>=<span class="val">"https://developer.mozilla.org"</span> <span class="attr">target</span>=<span class="val">"_blank"</span><span class="tag">&gt;</span><span class="text">MDN Web Docs</span><span class="tag">&lt;/a&gt;&lt;/li&gt;</span></span>
+            <span class="code-line"><span class="num">46</span>         <span class="tag">&lt;/ul&gt;</span></span>
+            <span class="code-line"><span class="num">47</span>     <span class="tag">&lt;/aside&gt;</span></span>
+            <span class="code-line"><span class="num">48</span> </span>
+            <span class="code-line"><span class="num">49</span>     <span class="comment">&lt;!-- Pie de página institucional inferior --&gt;</span></span>
+            <span class="code-line"><span class="num">50</span>     <span class="tag">&lt;footer&gt;</span></span>
+            <span class="code-line"><span class="num">51</span>         <span class="tag">&lt;address&gt;</span></span>
+            <span class="code-line"><span class="num">52</span>             <span class="text">Contacto: </span><span class="tag">&lt;a</span> <span class="attr">href</span>=<span class="val">"mailto:fredy.murillo@institucion.edu.co"</span><span class="tag">&gt;</span><span class="text">fredy.murillo@institucion.edu.co</span><span class="tag">&lt;/a&gt;</span><span class="tag">&lt;br&gt;</span></span>
+            <span class="code-line"><span class="num">53</span>             <span class="text">San Antonio de Prado, Medellín, Colombia</span></span>
+            <span class="code-line"><span class="num">54</span>         <span class="tag">&lt;/address&gt;</span></span>
+            <span class="code-line"><span class="num">55</span>         <span class="tag">&lt;p&gt;&lt;small&gt;</span><span class="text">&copy; 2026 Institución Educativa Empresarial San Antonio de Prado</span><span class="tag">&lt;/small&gt;&lt;/p&gt;</span></span>
+            <span class="code-line"><span class="num">56</span>     <span class="tag">&lt;/footer&gt;</span></span>
+            <span class="code-line"><span class="num">57</span> <span class="tag">&lt;/body&gt;</span></span>
+            <span class="code-line"><span class="num">58</span> <span class="tag">&lt;/html&gt;</span></span>
+        </div>
+
+        <h4>FASE 2: Validación e Interconexión Multidocumento</h4>
+        <ol>
+            <li>Verifica que todas las páginas del sitio (<code>index.html</code>, <code>modulos.html</code> y <code>galeria.html</code>) compartan exactamente el mismo menú de navegación dentro de sus respectivos bloques <code>&lt;header&gt;</code> / <code>&lt;nav&gt;</code>.</li>
+            <li>Inicia **Live Server** y realiza las siguientes pruebas de calidad:
+                <ul>
+                    <li>Navega entre las tres páginas verificando que no existan enlaces rotos.</li>
+                    <li>Inspecciona los elementos con DevTools (`F12`) y verifica que la estructura refleje adecuadamente la jerarquía de etiquetas semánticas (`header`, `nav`, `article` conteniendo `section`, `aside`, `footer`).</li>
+                    <li>Verifica que la tabla de la página <code>modulos.html</code> mantenga la expansión correcta de celdas mediante <code>colspan</code> y <code>rowspan</code>.</li>
+                    <li>Confirma que las imágenes de la página <code>galeria.html</code> contengan sus envolventes semánticos <code>&lt;figure&gt;</code> y pies de foto <code>&lt;figcaption&gt;</code>.</li>
+                </ul>
+            </li>
+        </ol>
+
+    </div>
+</body>
+</html>
